@@ -1,1 +1,1 @@
-## Practical 07 Login Signup form using React Hook Form and Zod 
+## Practical 07 Login and Signup Form using React Hook Form and Zod
