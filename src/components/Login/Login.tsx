@@ -1,20 +1,44 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { LoginSchema, type LoginData } from './LoginSchema';
-import { Field, FieldDescription, FieldLabel } from '../ui/field';
+import { Field, FieldError, FieldLabel } from '../ui/field';
 import { Input } from '../ui/input';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Button } from '../ui/button';
+import { useEffect } from 'react';
 
 export const Login = () => {
-  const { register, handleSubmit, formState } = useForm<LoginData>({
+  const navigate = useNavigate();
+
+  // on load of login page if user already loggd in then send hime to profilepage
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    if (!loggedInUser) return;
+    navigate('/Profile');
+    console.log('logged', loggedInUser);
+  }, [navigate]);
+
+  const { register, handleSubmit, formState, reset, setError } = useForm<LoginData>({
     resolver: zodResolver(LoginSchema),
   });
 
-  const { errors } = formState;
+  const { errors, isSubmitting, isValid } = formState;
 
   const handleLogin = (data: LoginData) => {
-    console.log('Login', data);
+    //get users
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    if (storedUsers) {
+      const loggedInUser = storedUsers.find(
+        (user) => user.email === data.email && user.password === data.password,
+      );
+      if (!loggedInUser) {
+        setError('root', { type: 'custom', message: 'Please enter valid credentials' });
+        return;
+      }
+      const { id } = loggedInUser;
+      localStorage.setItem('loggedInUser', id);
+    }
+    reset();
   };
 
   return (
@@ -35,7 +59,7 @@ export const Login = () => {
           <Field className="flex-1">
             <FieldLabel htmlFor="email"> Email</FieldLabel>
             <Input id="email" placeholder="Enter email" {...register('email')} />
-            <FieldDescription>{errors.email?.message}</FieldDescription>
+            <FieldError>{errors.email?.message}</FieldError>
           </Field>
 
           {/* password */}
@@ -47,14 +71,17 @@ export const Login = () => {
               placeholder="Enter your password"
               {...register('password')}
             />
-            <FieldDescription>{errors.password?.message}</FieldDescription>
+            <FieldError>{errors.password?.message}</FieldError>
           </Field>
         </div>
 
         {/* link and signin button */}
         <div className="flex flex-col gap-5">
+          {/* show errormeesage if invalid credentials */}
+          {errors.root && <FieldError>{errors.root?.message}</FieldError>}
+
           {/* signup link */}
-          <Link to="" className="text-blue-600 underline hover:text-blue-300">
+          <Link to="/" className="text-blue-600 underline hover:text-blue-300">
             Already a new member? Register here
           </Link>
 
@@ -64,6 +91,7 @@ export const Login = () => {
               id="loginBtn"
               type="submit"
               className="w-full cursor-pointer rounded-lg border border-slate-700 bg-blue-500 px-4 py-8 text-white transition outline-none"
+              disabled={!isValid || isSubmitting}
             >
               Signin
             </Button>
