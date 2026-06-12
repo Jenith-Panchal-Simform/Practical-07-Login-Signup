@@ -16,10 +16,12 @@ import {
 import { Textarea } from '../ui/textarea';
 import { Link } from 'react-router';
 import { Button } from '../ui/button';
+import { Checkbox } from '../ui/checkbox';
 
 const Signup = () => {
   const { register, formState, control, handleSubmit } = useForm<SignUpData>({
     resolver: zodResolver(SignUpSchema),
+    mode: 'onChange',
   });
 
   const { errors } = formState;
@@ -140,6 +142,7 @@ const Signup = () => {
           <Field className="flex-1">
             <FieldLabel htmlFor="address">Street Address</FieldLabel>
             <Textarea
+              className="text-white"
               id="address"
               placeholder="Enter your street address"
               {...register('address.streetAddress')}
@@ -190,10 +193,27 @@ const Signup = () => {
           </Field>
         </div>
 
-        {/* link and signup button */}
+        {/* termsCheck link and signup button */}
         <div className="flex flex-col gap-5">
+          {/* terms check */}
+          <Field orientation="horizontal">
+            <Controller
+              name="termsCheck"
+              control={control}
+              render={({ field }) => (
+                <Checkbox
+                  id="terms-checkbox-basic"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              )}
+            />
+            <FieldLabel htmlFor="terms-checkbox-basic">Accept terms and conditions</FieldLabel>
+            <FieldDescription>{errors.termsCheck?.message}</FieldDescription>
+          </Field>
+
           {/* login link */}
-          <Link to="" className="text-blue-600 underline hover:text-blue-300">
+          <Link to="/login" className="text-blue-600 underline hover:text-blue-300">
             Already a member? Login here
           </Link>
 

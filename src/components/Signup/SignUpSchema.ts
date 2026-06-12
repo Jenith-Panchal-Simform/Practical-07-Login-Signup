@@ -27,6 +27,9 @@ export const SignUpSchema = z
       message:
         'Password should contain one special character,character and number with minimum lenght of 8',
     }),
+    termsCheck: z
+      .boolean()
+      .refine((value) => value === true, { message: 'You must accept the terms and conditions' }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Password don't match",
