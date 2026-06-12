@@ -18,7 +18,7 @@ export const SignUpSchema = z
         message: "Phone number must contain only digits and an optional leading '+'",
       }),
     profilePhoto: z.url('Enter valid URL'),
-    birthDate: z.date(),
+    birthDate: z.coerce.date('Please select a birth date'),
     password: z.string().regex(/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/, {
       message:
         'Password should contain one special character,character and number with minimum lenght of 8',

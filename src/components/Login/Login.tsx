@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { LoginSchema, type LoginData } from './LoginSchema';
 import { Field, FieldDescription, FieldLabel } from '../ui/field';
@@ -17,6 +16,7 @@ export const Login = () => {
   const handleLogin = (data: LoginData) => {
     console.log('Login', data);
   };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-950 p-6">
       <form

@@ -22,12 +22,25 @@ const Signup = () => {
   const { register, formState, control, handleSubmit } = useForm<SignUpData>({
     resolver: zodResolver(SignUpSchema),
     mode: 'onChange',
+    defaultValues: {
+      termsCheck: false,
+    },
   });
 
   const { errors } = formState;
 
   const handleSignup = (data: SignUpData) => {
-    console.log(data);
+    // onsignup store the user is localstorage of storedusers and also set its id in loggedInUser
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    if (storedUsers) {
+      const currentUser = {
+        id: crypto.randomUUID(),
+        ...data,
+      };
+      console.log(currentUser);
+      localStorage.setItem('users', JSON.stringify([...storedUsers, currentUser]));
+      localStorage.setItem('loggedInUser', JSON.stringify(currentUser.id));
+    }
   };
 
   return (
