@@ -1,5 +1,5 @@
 import { useForm, Controller } from 'react-hook-form';
-import { SignUpSchema, type FormData } from './SignUpSchema';
+import { SignUpSchema, type SignUpData } from './SignUpSchema';
 import { DevTool } from '@hookform/devtools';
 import { Field, FieldDescription, FieldLabel } from '../ui/field';
 import { Input } from '../ui/input';
@@ -18,14 +18,14 @@ import { Link } from 'react-router';
 import { Button } from '../ui/button';
 
 const Signup = () => {
-  const { register, formState, control, handleSubmit } = useForm<FormData>({
+  const { register, formState, control, handleSubmit } = useForm<SignUpData>({
     resolver: zodResolver(SignUpSchema),
   });
 
   const { errors } = formState;
 
-  const handleSignup = (data: FormData) => {
-    console.log('SignUp', data);
+  const handleSignup = (data: SignUpData) => {
+    console.log(data);
   };
 
   return (
@@ -88,11 +88,8 @@ const Signup = () => {
               name="gender"
               control={control}
               render={({ field }) => (
-                <Select onValueChange={field.onChange}>
-                  <SelectTrigger
-                    {...register('gender')}
-                    className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-6 text-white transition outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                  >
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-6 text-white transition outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
                     <SelectValue placeholder="Select Gender" />
                   </SelectTrigger>
                   <SelectContent>
@@ -193,14 +190,14 @@ const Signup = () => {
           </Field>
         </div>
 
-        {/* link and submitbtn */}
+        {/* link and signup button */}
         <div className="flex flex-col gap-5">
-          {/* email */}
+          {/* login link */}
           <Link to="" className="text-blue-600 underline hover:text-blue-300">
             Already a member? Login here
           </Link>
 
-          {/* user profile photo url */}
+          {/* signup button */}
           <Field className="flex-1">
             <Button
               id="signupBtn"
