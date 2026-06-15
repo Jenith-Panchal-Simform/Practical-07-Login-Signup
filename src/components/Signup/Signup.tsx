@@ -129,7 +129,7 @@ const Signup = () => {
           </Field>
 
           <Field className="flex-1">
-            <FieldLabel htmlFor="contact"> Contact</FieldLabel>
+            <FieldLabel htmlFor="contact"> Contact Number</FieldLabel>
             <Input id="contact" placeholder="Enter your contact number" {...register('contact')} />
             <FieldError>{errors.contact?.message}</FieldError>
           </Field>
@@ -149,7 +149,7 @@ const Signup = () => {
             <FieldLabel htmlFor="url"> Profile Picture URL</FieldLabel>
             <Input
               id="url"
-              placeholder="Enter your profile pic url"
+              placeholder="Enter your profile picture url"
               {...register('profilePhoto')}
             />
             <FieldError>{errors.profilePhoto?.message}</FieldError>
