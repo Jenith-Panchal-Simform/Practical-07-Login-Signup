@@ -17,20 +17,19 @@ type User = {
 
 export const Profile = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
+  const [user] = useState<User | null>(() => {
+    const id = localStorage.getItem('loggedInUser');
+    if (!id) return null;
+
+    const stored = JSON.parse(localStorage.getItem('users') || '[]');
+    return stored.find((u: User) => u.id === id) || null;
+  });
 
   useEffect(() => {
-    const id = localStorage.getItem('loggedInUser');
-    if (!id) return;
-    const stored = JSON.parse(localStorage.getItem('users') || '[]');
-    const found = stored.find((u: User) => u.id === id) || null;
-    if (!found) {
-      // If no user found, go to signup
+    if (!user) {
       navigate('/signup');
-      return;
     }
-    setUser(found);
-  }, [navigate]);
+  }, [user, navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('loggedInUser');
@@ -45,7 +44,7 @@ export const Profile = () => {
     );
   }
 
-  const date = new Date(user?.birthDate).toISOString().split("T")[0];
+  const date = user?.birthDate ? new Date(user.birthDate).toISOString().split('T')[0] : '';
 
   const { firstName, lastName, email, age, gender, contact, profilePhoto, address } = user;
 
@@ -72,7 +71,9 @@ export const Profile = () => {
               {firstName} {lastName}
             </h2>
             <p className="mt-1 text-slate-400">{email}</p>
-            <p className="mt-2 text-slate-400">{age ? `Age: ${age}` : ''} {gender ? `• ${gender}` : ''}</p>
+            <p className="mt-2 text-slate-400">
+              {age ? `Age: ${age}` : ''} {gender ? `• ${gender}` : ''}
+            </p>
           </div>
 
           <div className="flex flex-col gap-3">

@@ -29,7 +29,7 @@ export const Login = () => {
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
     if (storedUsers) {
       const loggedInUser = storedUsers.find(
-        (user) => user.email === data.email && user.password === data.password,
+        (user: LoginData) => user.email === data.email && user.password === data.password,
       );
       if (!loggedInUser) {
         setError('root', { type: 'custom', message: 'Please enter valid credentials' });
@@ -37,7 +37,7 @@ export const Login = () => {
       }
       const { id } = loggedInUser;
       localStorage.setItem('loggedInUser', id);
-      navigate("/profile")
+      navigate('/profile');
     }
     reset();
   };
