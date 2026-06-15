@@ -95,7 +95,7 @@ const Signup = () => {
 
           {/* datepicker */}
           <Field className="flex-1">
-            <FieldLabel htmlFor="date"> Date</FieldLabel>
+            <FieldLabel htmlFor="date"> Birth Date</FieldLabel>
             <Input id="date" type="date" {...register('birthDate', { valueAsDate: true })} />
             <FieldError>{errors.birthDate?.message}</FieldError>
           </Field>
@@ -119,7 +119,7 @@ const Signup = () => {
                       <SelectLabel>Gender</SelectLabel>
                       <SelectItem value="male">Male</SelectItem>
                       <SelectItem value="female">Female</SelectItem>
-                      <SelectItem value="others">Others</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                   <FieldError>{errors.gender?.message}</FieldError>
@@ -130,7 +130,7 @@ const Signup = () => {
 
           <Field className="flex-1">
             <FieldLabel htmlFor="contact"> Contact</FieldLabel>
-            <Input id="contact" placeholder="Enter your Contact" {...register('contact')} />
+            <Input id="contact" placeholder="Enter your contact number" {...register('contact')} />
             <FieldError>{errors.contact?.message}</FieldError>
           </Field>
         </div>
@@ -146,7 +146,7 @@ const Signup = () => {
 
           {/* user profile photo url */}
           <Field className="flex-1">
-            <FieldLabel htmlFor="url"> Profile Pic URL</FieldLabel>
+            <FieldLabel htmlFor="url"> Profile Picture URL</FieldLabel>
             <Input
               id="url"
               placeholder="Enter your profile pic url"

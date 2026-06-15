@@ -10,7 +10,7 @@ export const SignUpSchema = z
       streetAddress: z.string().min(1, 'Enter Address'),
     }),
     age: z.number('Enter age'),
-    gender: z.enum(['male', 'female', 'others'], { message: 'Select the gender' }),
+    gender: z.enum(['male', 'female', 'other'], { message: 'Select the gender' }),
     contact: z
       .string()
       .regex(/^\d{10}$/, {
@@ -21,11 +21,11 @@ export const SignUpSchema = z
       .refine(
         (url) => /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url),
         {
-          message: 'URL must point to an image',
+          message: 'URL must point to an image having jpg|jpeg|png|gif|webp|svg in it',
         }
       ),
     birthDate: z.date('Please select a birth date'),
-    password: z.string().regex(/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/, {
+    password: z.string().regex(/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#@$%&? "]).*$/, {
       message:
         'Password should contain one special character,character and number with minimum lenght of 8',
     }),
