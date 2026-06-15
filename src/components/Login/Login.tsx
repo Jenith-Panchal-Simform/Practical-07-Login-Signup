@@ -94,7 +94,7 @@ export const Login = () => {
               className="w-full cursor-pointer rounded-lg border border-slate-700 bg-blue-500 px-4 py-8 text-white transition outline-none"
               disabled={!isValid || isSubmitting}
             >
-              Signin
+              Login
             </Button>
           </Field>
         </div>

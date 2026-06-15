@@ -11,25 +11,20 @@ export const SignUpSchema = z
     }),
     age: z.number('Enter age'),
     gender: z.enum(['male', 'female', 'other'], { message: 'Select the gender' }),
-    contact: z
-      .string()
-      .regex(/^\d{10}$/, {
-        message: 'Contact number must be exactly 10 digits',
-      }),
+    contact: z.string().regex(/^\d{10}$/, {
+      message: 'Contact number must be exactly 10 digits',
+    }),
     profilePhoto: z
       .url('Enter valid URL')
-      .refine(
-        (url) => /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url),
-        {
-          message: 'URL must point to an image having jpg|jpeg|png|gif|webp|svg in it',
-        }
-      ),
+      .refine((url) => /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url), {
+        message: 'URL must point to an image having jpg|jpeg|png|gif|webp|svg in it',
+      }),
     birthDate: z.date('Please select a birth date'),
     password: z.string().regex(/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#@$%&? "]).*$/, {
       message:
         'Password should contain one special character,character and number with minimum lenght of 8',
     }),
-    confirmPassword: z.string().regex(/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/, {
+    confirmPassword: z.string().regex(/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#@$%&? "]).*$/, {
       message:
         'Password should contain one special character,character and number with minimum lenght of 8',
     }),
