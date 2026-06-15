@@ -14,11 +14,14 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '../ui/textarea';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
 
 const Signup = () => {
+
+  const navigate = useNavigate()
+
   const { register, formState, control, handleSubmit, reset } = useForm<SignUpData>({
     resolver: zodResolver(SignUpSchema),
     mode: 'onChange',
@@ -41,9 +44,9 @@ const Signup = () => {
         ...updatedData,
       };
 
-      console.log(currentUser);
       localStorage.setItem('users', JSON.stringify([...storedUsers, currentUser]));
       reset();
+      navigate("/login")
     }
   };
 

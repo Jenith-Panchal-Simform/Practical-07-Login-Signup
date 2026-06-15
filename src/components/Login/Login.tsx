@@ -14,7 +14,7 @@ export const Login = () => {
   useEffect(() => {
     const loggedInUser = localStorage.getItem('loggedInUser');
     if (!loggedInUser) return;
-    navigate('/Profile');
+    navigate('/profile');
     console.log('logged', loggedInUser);
   }, [navigate]);
 
@@ -37,6 +37,7 @@ export const Login = () => {
       }
       const { id } = loggedInUser;
       localStorage.setItem('loggedInUser', id);
+      navigate("/profile")
     }
     reset();
   };
@@ -81,8 +82,8 @@ export const Login = () => {
           {errors.root && <FieldError>{errors.root?.message}</FieldError>}
 
           {/* signup link */}
-          <Link to="/" className="text-blue-600 underline hover:text-blue-300">
-            Already a new member? Register here
+          <Link to="/signup" className="text-blue-600 underline hover:text-blue-300">
+            Are you a new member? Register here
           </Link>
 
           {/* signup button */}

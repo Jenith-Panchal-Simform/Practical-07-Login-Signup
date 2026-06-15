@@ -13,11 +13,17 @@ export const SignUpSchema = z
     gender: z.enum(['male', 'female', 'others'], { message: 'Select the gender' }),
     contact: z
       .string()
-      .min(10, 'Enter valid Contact Number')
-      .regex(/^\+?\d+$/, {
-        message: "Phone number must contain only digits and an optional leading '+'",
+      .regex(/^\d{10}$/, {
+        message: 'Contact number must be exactly 10 digits',
       }),
-    profilePhoto: z.url('Enter valid URL'),
+    profilePhoto: z
+      .url('Enter valid URL')
+      .refine(
+        (url) => /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url),
+        {
+          message: 'URL must point to an image',
+        }
+      ),
     birthDate: z.date('Please select a birth date'),
     password: z.string().regex(/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/, {
       message:
