@@ -14,7 +14,7 @@ export const SignUpSchema = z
     contact: z.string().regex(/^\d{10}$/, {
       message: 'Contact number must be exactly 10 digits',
     }),
-    profilePhoto: z
+    profilePhotoURL: z
       .url('Enter valid URL')
       .refine((url) => /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(url), {
         message: 'URL must point to an image having jpg|jpeg|png|gif|webp|svg in it',

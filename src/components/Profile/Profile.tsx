@@ -1,61 +1,43 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
+
 import { Button } from '../ui/button';
+import type { SignUpData } from '../Signup/SignUpSchema';
 
 type User = {
   id: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  age?: number;
-  gender?: string;
-  contact?: string;
-  profilePhoto?: string;
-  birthDate?: string;
-  address?: { streetAddress?: string; city?: string; state?: string };
-};
+} & SignUpData;
 
 export const Profile = () => {
   const navigate = useNavigate();
-  const [user] = useState<User | null>(() => {
-    const id = localStorage.getItem('loggedInUser');
-    if (!id) return null;
 
-    const stored = JSON.parse(localStorage.getItem('users') || '[]');
-    return stored.find((u: User) => u.id === id) || null;
-  });
+  const id = localStorage.getItem('loggedInUser');
+  if (!id) return null;
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/signup');
-    }
-  }, [user, navigate]);
+  const stored: User[] = JSON.parse(localStorage.getItem('users') || '[]');
+
+  const user = id ? (stored.find((u) => u.id === id) ?? null) : null;
+
+  if (!user) {
+    return <Navigate to="/signup" replace />;
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('loggedInUser');
     navigate('/login');
   };
 
-  if (!user) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-950 p-6">
-        <div className="text-slate-400">Loading profile...</div>
-      </div>
-    );
-  }
-
   const date = user?.birthDate ? new Date(user.birthDate).toISOString().split('T')[0] : '';
 
-  const { firstName, lastName, email, age, gender, contact, profilePhoto, address } = user;
+  const { firstName, lastName, email, age, gender, contact, profilePhotoURL, address } = user;
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-950 p-6">
       <div className="w-full max-w-3xl space-y-6 rounded-2xl border border-slate-800 bg-slate-900 p-8 shadow-xl">
         <div className="flex items-center gap-6">
           <div className="h-32 w-32 shrink-0 rounded-full bg-slate-700 ring-1 ring-slate-800">
-            {profilePhoto ? (
+            {profilePhotoURL ? (
               <img
-                src={profilePhoto}
+                src={profilePhotoURL}
                 alt="profile"
                 className="h-32 w-32 rounded-full object-cover"
               />

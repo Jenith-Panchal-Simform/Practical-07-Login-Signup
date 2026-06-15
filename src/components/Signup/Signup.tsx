@@ -1,8 +1,6 @@
 import { useForm, Controller } from 'react-hook-form';
-import { SignUpSchema, type SignUpData } from './SignUpSchema';
-import { DevTool } from '@hookform/devtools';
+import { Link, useNavigate } from 'react-router';
 import { Field, FieldError, FieldLabel } from '../ui/field';
-import { Input } from '../ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Select,
@@ -13,14 +11,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
-import { Link, useNavigate } from 'react-router';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
+import { SignUpSchema, type SignUpData } from './SignUpSchema';
 
 const Signup = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { register, formState, control, handleSubmit, reset } = useForm<SignUpData>({
     resolver: zodResolver(SignUpSchema),
@@ -46,7 +44,7 @@ const Signup = () => {
 
       localStorage.setItem('users', JSON.stringify([...storedUsers, currentUser]));
       reset();
-      navigate("/login")
+      navigate('/login');
     }
   };
 
@@ -150,9 +148,9 @@ const Signup = () => {
             <Input
               id="url"
               placeholder="Enter your profile picture url"
-              {...register('profilePhoto')}
+              {...register('profilePhotoURL')}
             />
-            <FieldError>{errors.profilePhoto?.message}</FieldError>
+            <FieldError>{errors.profilePhotoURL?.message}</FieldError>
           </Field>
         </div>
 
@@ -250,7 +248,6 @@ const Signup = () => {
           </Field>
         </div>
       </form>
-      <DevTool control={control} />
     </div>
   );
 };

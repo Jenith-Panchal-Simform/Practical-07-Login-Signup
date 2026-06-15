@@ -1,13 +1,9 @@
-import { createBrowserRouter, Navigate } from 'react-router';
-import Signup from '../components/Signup/Signup';
-import { Login } from '@/components/Login/Login';
-import { Profile } from '@/components/Profile/Profile';
-import ProtectedRoute from './ProtectedRoute';
+import { createBrowserRouter } from 'react-router';
 
-function RootRedirect() {
-  const loggedIn =localStorage.getItem('loggedInUser');
-  return loggedIn ? <Navigate to="/Profile" replace /> : <Navigate to="/login" replace />;
-}
+import Signup from '@/components/Signup/Signup';
+import { Login } from '@/components/Login/Login';
+import { ProfilePage } from '@/components/Profile/ProfilePage';
+import { RootRedirect } from './RootRedirect';
 
 export const appRouter = createBrowserRouter([
   {
@@ -20,11 +16,7 @@ export const appRouter = createBrowserRouter([
   },
   {
     path: '/profile',
-    element: (
-      <ProtectedRoute>
-        <Profile />
-      </ProtectedRoute>
-    ),
+    element: <ProfilePage />,
   },
   {
     path: '/signup',

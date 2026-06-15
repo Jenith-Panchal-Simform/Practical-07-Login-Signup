@@ -1,28 +1,28 @@
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Link, Navigate, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
-import { LoginSchema, type LoginData } from './LoginSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Field, FieldError, FieldLabel } from '../ui/field';
-import { Input } from '../ui/input';
-import { Link, useNavigate } from 'react-router';
 import { Button } from '../ui/button';
-import { useEffect } from 'react';
+import { Input } from '../ui/input';
+import { LoginSchema, type LoginData } from './LoginSchema';
 
 export const Login = () => {
   const navigate = useNavigate();
 
-  // on load of login page if user already loggd in then send hime to profilepage
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem('loggedInUser');
-    if (!loggedInUser) return;
-    navigate('/profile');
-    console.log('logged', loggedInUser);
-  }, [navigate]);
-
-  const { register, handleSubmit, formState, reset, setError } = useForm<LoginData>({
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting, isValid },
+  } = useForm<LoginData>({
     resolver: zodResolver(LoginSchema),
   });
+  // on load of login page if user already loggd in then send him to profilepage
 
-  const { errors, isSubmitting, isValid } = formState;
+  const loggedInUser = localStorage.getItem('loggedInUser');
+  if (loggedInUser) {
+    return <Navigate to="/profile" replace />;
+  }
 
   const handleLogin = (data: LoginData) => {
     //get users
@@ -39,7 +39,6 @@ export const Login = () => {
       localStorage.setItem('loggedInUser', id);
       navigate('/profile');
     }
-    reset();
   };
 
   return (
@@ -86,7 +85,7 @@ export const Login = () => {
             Are you a new member? Register here
           </Link>
 
-          {/* signup button */}
+          {/* signin button */}
           <Field className="flex-1">
             <Button
               id="loginBtn"
