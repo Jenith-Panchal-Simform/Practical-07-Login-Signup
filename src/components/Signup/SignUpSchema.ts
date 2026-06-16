@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 export const SignUpSchema = z
   .object({
     firstName: z.string().min(1, 'FirstName is required'),

@@ -1,7 +1,9 @@
 import { useForm, Controller } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router';
-import { Field, FieldError, FieldLabel } from '../ui/field';
+
 import { zodResolver } from '@hookform/resolvers/zod';
+
+import { Field, FieldError, FieldLabel } from '../ui/field';
 import {
   Select,
   SelectContent,
@@ -10,11 +12,12 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '../ui/select';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
+
 import { SignUpSchema, type SignUpData } from './SignUpSchema';
 
 const Signup = () => {
@@ -35,11 +38,22 @@ const Signup = () => {
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
     if (storedUsers) {
       //remove confirm password and termsCheck from object
-      // eslint-disable-next-line
-      const { confirmPassword, termsCheck, ...updatedData } = data;
       const currentUser = {
         id: crypto.randomUUID(),
-        ...updatedData,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        address: {
+          state: data.address.state,
+          city: data.address.city,
+          streetAddress: data.address.streetAddress,
+        },
+        age: data.age,
+        gender: data.gender,
+        contact: data.contact,
+        profilePhotoURL: data.profilePhotoURL,
+        birthDate: data.birthDate,
+        password: data.password,
       };
 
       localStorage.setItem('users', JSON.stringify([...storedUsers, currentUser]));
