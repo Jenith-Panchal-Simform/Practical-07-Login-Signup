@@ -1,4 +1,4 @@
-import { Navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import { Button } from '../ui/button';
 import type { SignUpData } from '../Signup/SignUpSchema';
@@ -18,7 +18,7 @@ export const Profile = () => {
   const user = id ? (stored.find((u) => u.id === id) ?? null) : null;
 
   if (!user) {
-    return <Navigate to="/signup" replace />;
+    return;
   }
 
   const handleLogout = () => {
@@ -59,9 +59,6 @@ export const Profile = () => {
           </div>
 
           <div className="flex flex-col gap-3">
-            <Button variant="outline" onClick={() => navigate('/signup')}>
-              Register
-            </Button>
             <Button variant="destructive" onClick={handleLogout}>
               Logout
             </Button>

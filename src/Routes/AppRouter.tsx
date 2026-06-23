@@ -1,26 +1,31 @@
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter, redirect } from 'react-router';
 
 import Signup from '@/components/Signup/Signup';
 import { Login } from '@/components/Login/Login';
-import { ProfilePage } from '@/components/Profile/ProfilePage';
 
 import { RootRedirect } from './RootRedirect';
+import ProtectedRoute from './ProtectedRoute';
+import { Profile } from '@/components/Profile/Profile';
 
-export const appRouter = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
+    loader: () => redirect('/profile'),
+  },
+  {
     element: <RootRedirect />,
+    children: [
+      { path: 'signup', element: <Signup /> },
+      { path: 'login', element: <Login /> },
+    ],
   },
   {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/profile',
-    element: <ProfilePage />,
-  },
-  {
-    path: '/signup',
-    element: <Signup />,
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: 'profile',
+        element: <Profile />,
+      },
+    ],
   },
 ]);

@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,12 +20,6 @@ export const Login = () => {
   } = useForm<LoginData>({
     resolver: zodResolver(LoginSchema),
   });
-  // on load of login page if user already loggd in then send him to profilepage
-
-  const loggedInUser = localStorage.getItem('loggedInUser');
-  if (loggedInUser) {
-    return <Navigate to="/profile" replace />;
-  }
 
   const handleLogin = (data: LoginData) => {
     //get users

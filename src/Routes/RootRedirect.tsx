@@ -1,6 +1,7 @@
-import { Navigate } from 'react-router';
+import { Navigate, Outlet } from 'react-router';
 
 export function RootRedirect() {
-  const loggedIn = localStorage.getItem('loggedInUser');
-  return loggedIn ? <Navigate to="/Profile" replace /> : <Navigate to="/login" replace />;
+  const loggedIn = Boolean(localStorage.getItem('loggedInUser'));
+  if (loggedIn) return <Navigate to="/profile" replace />;
+  return <Outlet />;
 }
